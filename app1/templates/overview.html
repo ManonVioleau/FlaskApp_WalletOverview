@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+<body>
+
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+          <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+          <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+        </svg>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Wallet
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/Overview">Overview</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Binance</a></li>
+              <li><a class="dropdown-item" href="#">Coinbase</a></li>
+              <li><a class="dropdown-item" href="#">Others</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Trade
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Binance Spot</a></li>
+              <li><a class="dropdown-item" href="#">Binance Future</a></li>
+              <li><a class="dropdown-item" href="#">Coinbase</a></li>
+              <li><a class="dropdown-item" href="#">Others</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            DEFI
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Overview</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Pancakes Swap</a></li>
+              <li><a class="dropdown-item" href="#">Wault</a></li>
+              <li><a class="dropdown-item" href="#">Venus</a></li>
+              <li><a class="dropdown-item" href="#">Others</a></li>
+            </ul>
+          </li>
+        </ul>
+        <!-- <form class="d-flex">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">Search</button>
+        </form> -->
+      </div>  
+    </div>
+  </nav>
+</header>
+<h1 class="title-1-page">Wallets Overview</h1>
+<h2 class="title-2-page">Pie charts</h2>
+<section class="container-fluid">
+  <div class="container-fluid graph">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="card-title">Overview</h3>
+            </div>
+            <div class="row">
+            <div class="col sub-col" id="graph-binance" data-binance='{{ balances|tojson }}'>
+            </div>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script>
+              google.charts.load('current', {'packages':['corechart']});
+              google.charts.setOnLoadCallback(drawChart);
+
+              function drawChart() {
+                var data = JSON.parse(document.getElementById("graph-binance").dataset.binance);
+
+                processedData = [['Asset', 'Balance']]
+
+                for (var i = 0; i < data.length; i++) {
+                  processedData.push(data[i])
+                }
+
+                // console.log(processedData)
+
+                var dataBinance = google.visualization.arrayToDataTable(processedData);
+               
+              var options = {
+                legend: {
+                      position: 'bottom', 
+                      textStyle: {
+                        color: 'black', 
+                        fontSize: 12},
+                      alignment: 'center',
+                      maxLines: 5
+                      },
+              //   chartArea:{left:20,top:0,width:'50%',height:'75%'},
+              fontName: 'Tahoma',
+              pieHole: 1,
+              pieSliceText: 'percentage',  // 'value' 'label' 'none' 'percentage'
+              // pieSliceTextStyle: {color: <string>, fontName: <string>, fontSize: <number>}
+              pieStartAngle: 0,
+              // slices: {1: {color: 'grey'}},
+              sliceVisibilityThreshold: 0.0,
+              };
+
+                var chartBinance = new google.visualization.PieChart(document.getElementById('graph-binance'));
+                chartBinance.draw(dataBinance, options);
+              }
+            </script>
+            <div class="col sub-col">
+              <div class="sub-sub-col">
+                <h4> Platform </h4>
+              </div>
+              <div class="sub-sub-col">
+              <div class="onoffswitch">
+                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" checked>
+                <label class="onoffswitch-label" for="myonoffswitch">
+                    <span class="onoffswitch-inner"></span>
+                    <span class="onoffswitch-switch"></span>
+                </label>
+            </div>
+        </div>
+            <div class="sub-sub-col">
+            <h4> Assets </h4>
+            </div>
+          </div>
+            <div class="card-body text-center">
+                <a href="#" class="btn btn-secondary">See in detail</a>
+            </div>
+        </div>
+    <div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="card-title">Binance Wallet</h3>
+            </div>
+            <div id="graph-binance" data-binance='{{ balances|tojson }}'>
+            </div>
+            <div class="card-body text-center">
+                <a href="#" class="btn btn-secondary">See in detail</a>
+            </div>
+            <!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script>
+              google.charts.load('current', {'packages':['corechart']});
+              google.charts.setOnLoadCallback(drawChart);
+
+              function drawChart() {
+                var data = JSON.parse(document.getElementById("graph-binance").dataset.binance);
+
+                processedData = [['Asset', 'Balance']]
+
+                for (var i = 0; i < data.length; i++) {
+                  processedData.push(data[i])
+                }
+
+                // console.log(processedData)
+
+                var dataBinance = google.visualization.arrayToDataTable(processedData);
+               
+              var options = {
+                legend: {
+                      position: 'bottom', 
+                      textStyle: {
+                        color: 'black', 
+                        fontSize: 12},
+                      alignment: 'center',
+                      maxLines: 5
+                      },
+              //   chartArea:{left:20,top:0,width:'50%',height:'75%'},
+              fontName: 'Tahoma',
+              pieHole: 1,
+              pieSliceText: 'percentage',  // 'value' 'label' 'none' 'percentage'
+              // pieSliceTextStyle: {color: <string>, fontName: <string>, fontSize: <number>}
+              pieStartAngle: 0,
+              // slices: {1: {color: 'grey'}},
+              sliceVisibilityThreshold: 0.1,
+              };
+
+                var chartBinance = new google.visualization.PieChart(document.getElementById('graph-binance'));
+                chartBinance.draw(dataBinance, options);
+              }
+            </script> -->
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="card-title">Coinbase Pro Wallet</h3>
+            </div>
+            <div id="graph-coinbase-pro" data-coinbasepro='{{ balance_coinbase_pro|tojson }}'>
+            </div>
+            <div class="card-body text-center">
+                <a href="#" class="btn btn-secondary">See in detail</a>
+            </div>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script>
+              google.charts.load('current', {'packages':['corechart']});
+              google.charts.setOnLoadCallback(drawChart);
+
+              function drawChart() {
+                var data = JSON.parse(document.getElementById("graph-coinbase-pro").dataset.coinbasepro);
+
+                processedData = [['Asset', 'Balance']]
+
+                for (var i = 0; i < data.length; i++) {
+                  processedData.push(data[i])
+                }
+
+                // console.log(processedData)
+
+                var dataCoinbasePro = google.visualization.arrayToDataTable(processedData);
+               
+              var options = {
+                legend: {
+                      position: 'bottom', 
+                      textStyle: {
+                        color: 'black', 
+                        fontSize: 12},
+                      alignment: 'center',
+                      maxLines: 5
+                      },
+              //   chartArea:{left:20,top:0,width:'50%',height:'75%'},
+              fontName: 'Tahoma',
+              pieHole: 1,
+              pieSliceText: 'percentage',  // 'value' 'label' 'none' 'percentage'
+              // pieSliceTextStyle: {color: <string>, fontName: <string>, fontSize: <number>}
+              pieStartAngle: 0,
+              // slices: {1: {color: 'grey'}},
+              sliceVisibilityThreshold: 0.1,
+              };
+
+                var chartCoinbasePro = new google.visualization.PieChart(document.getElementById('graph-coinbase-pro'));
+                chartCoinbasePro.draw(dataCoinbasePro, options);
+              }
+            </script>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="card-title">Others</h3>
+            </div>
+            <div id="graph-others">
+            </div>
+            <div class="card-body text-center">
+                <a href="#" class="btn btn-secondary">See in detail</a>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+</section>
+      
+<footer>
+      
+        
+</footer>
+<!-- test chart js -->
+
+    <!--  
+    <div class="col">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3 class="card-title">Binance Wallet</h3>
+            </div>
+            <canvas id="graph-binance1" data-binance='{{ balances|tojson }}'></canvas>
+            <div class="card-body text-center">
+                <a href="#" class="btn btn-secondary">See in detail</a>
+                <script src="./static/js/chart.js"></script>
+                <script>
+                  var ctx = document.getElementById('graph-binance1').getContext('2d');
+
+                  
+                    var data = JSON.parse(document.getElementById("graph-binance").dataset.binance);
+
+                      // processedData = [['Asset', 'Balance']]
+                      processedData = []
+                      labelAssets = []
+                      balanceAssets = []
+                      backgroundColortab = []
+
+                    for (var i = 0; i < data.length; i++) {
+                      processedData.push(data[i])
+                      labelAssets.push(data[i][0])
+                      balanceAssets.push(data[i][1])
+                      colorback = 'rgba(' + 22 + ',' + i*20 + ',' + 199 + ',' + 1 + ')'
+                      backgroundColortab.push(colorback)
+                    }
+                    
+                    console.log(labelAssets)
+                    console.log(backgroundColortab)
+                  
+
+                  var myChart = new Chart(ctx, {
+                      type: 'pie',
+                      data: {
+                          labels: labelAssets,
+                          datasets: [{
+                              label: 'Balance',
+                              data: balanceAssets,
+                              backgroundColor: backgroundColortab, 
+                              borderColor: [
+                                  'rgba(255, 255, 255, 1)'
+                              ],
+                              borderWidth: 2
+                          }]
+                      },
+                      options: {
+                          scales: {
+                              y: {
+                                  beginAtZero: true
+                              }
+                          }
+                      }
+                  });
+                </script>
+            </div>
+        </div>
+    </div>
+    -->
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+
+<script src="./static/js/script.js"></script>
+
+</body>
+</html>

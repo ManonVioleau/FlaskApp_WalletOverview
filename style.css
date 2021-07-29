@@ -1,0 +1,7 @@
+tra {
+    transform: scale(2);
+    grid-template-columns: repeat(2, 1fr);
+
+    grid-column: auto;
+    grid-row: auto;
+}
